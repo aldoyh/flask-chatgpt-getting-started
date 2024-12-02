@@ -16,7 +16,7 @@
 
 # Genezio Flask ChatGPT Getting Started
 
-In the `index.py` file, you will see the implementation of a Flask app that has three routes:
+In the `index.py` file, you will see the implementation of a Flask app that has two routes:
 
 - `/` - a chat with GPT-3.5-turbo
 - `/reset` - resets the chat
