@@ -13,15 +13,23 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def get_openai_response(message):
     """Separate function to handle OpenAI communication"""
-    client = openai.OpenAI(api_key=openai.api_key)
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": message}],
-        stream=False
-    )
-    if not response or not response.choices:
-        raise ValueError("No response received from API")
-    return response.choices[0].message.content
+    if not openai.api_key:
+        raise ValueError("API key is not set!")
+        
+    try:
+        client = openai.OpenAI(api_key=openai.api_key)
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": message}],
+            stream=False
+        )
+        if not response or not response.choices:
+            raise ValueError("No response received from API")
+        return response.choices[0].message.content
+    except openai.AuthenticationError:
+        raise ValueError("Invalid API key")
+    except Exception as e:
+        raise ValueError(f"Error communicating with OpenAI: {str(e)}")
 
 @app.route('/', methods=['GET', 'POST'])
 def chat():
@@ -44,7 +52,7 @@ def chat():
                 app.logger.error(f"Error in chat route: {str(e)}")
                 return render_template('index.html', 
                                     messages=messages, 
-                                    error="An error occurred while processing your request")
+                                    error=f"An error occurred while processing your request: {str(e)}")
     
     return render_template('index.html', messages=messages)
 

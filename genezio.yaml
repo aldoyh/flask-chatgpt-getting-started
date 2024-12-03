@@ -1,5 +1,5 @@
 # The name of the project.
-name: flask-getting-started
+name: flask-chatgpt-getting-started
 # The region where the project is deployed. Available regions: us-east-1, eu-central-1
 region: us-east-1
 # The version of the Genezio YAML configuration to parse.
@@ -16,7 +16,7 @@ backend:
   # Information about the backend's functions.
   functions:
     # The name (label) of the function.
-    - name: flask-function
+    - name: flask-chatgpt
       # The path to the function's code.
       path: ./
       # The name of the application.
